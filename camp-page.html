@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E&C Department</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background: #333;
+            color: white;
+        }
+
+        .background-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            filter: brightness(50%);
+        }
+
+        .header {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to right, blue, yellow, red);
+            text-align: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .transparent-container {
+            margin: 50px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .form-group input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: linear-gradient(to right, blue, red);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .upload-label i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .upload-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s;
+        }
+
+        .upload-button:hover {
+            background-color: darkgreen;
+        }
+
+        .clock {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            color: white;
+            background: linear-gradient(to right, blue, red);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay muted loop class="background-video">
+        <source src="your-background-video.mp4" type="video/mp4">
+    </video>
+
+    <div class="header">E&C Department</div>
+
+    <div class="transparent-container">
+        <form id="departmentForm">
+            <div class="form-group">
+                <label for="dateInput">Date:</label>
+                <input type="date" id="dateInput" required>
+            </div>
+
+            <div class="form-group">
+                <label for="commentInput">Comment:</label>
+                <textarea id="commentInput" placeholder="Enter your comment here" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="transactionsInput">Copied Transactions:</label>
+                <textarea id="transactionsInput" placeholder="Paste transactions here" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="imageInput" class="upload-label">
+                    <i class="camera-icon">📷</i>
+                    <span>Any other graphical information</span>
+                </label>
+                <input id="imageInput" type="file" accept="image/*">
+            </div>
+
+            <button id="submitBtn" class="upload-button" type="submit">Upload</button>
+        </form>
+    </div>
+
+    <div class="clock" id="clock"></div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('clock').textContent = timeString;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock(); 
+
+        document.getElementById('departmentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const date = document.getElementById('dateInput').value;
+            const comment = document.getElementById('commentInput').value;
+            const transactions = document.getElementById('transactionsInput').value;
+            const imageInput = document.getElementById('imageInput');
+            
+            let imageSrc = "N/A";
+            if (imageInput.files.length > 0) {
+                const fileReader = new FileReader();
+                fileReader.onload = function(event) {
+                    imageSrc = event.target.result;
+                    storeDepartmentData('E&C Department', { date, comment, transactions, imageSrc });
+                };
+                fileReader.readAsDataURL(imageInput.files[0]);
+            } else {
+                storeDepartmentData('E&C Department', { date, comment, transactions, imageSrc });
+            }
+        });
+
+        function storeDepartmentData(department, data) {
+            if (confirm("Are you sure you want to submit this data?")) {
+                const records = JSON.parse(localStorage.getItem(`${department}Records`)) || [];
+                records.push(data);
+                localStorage.setItem(`${department}Records`, JSON.stringify(records));
+                
+                // Redirect to the receiving page
+                window.location.href = 'display1.html';
+            }
+        }
+    </script>
+</body>
+</html>

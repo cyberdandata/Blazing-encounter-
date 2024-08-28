@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administrator Department</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('fani.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .container {
+            width: 160%;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 8px;
+        }
+        
+        .header {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(to right, #0066ff, #ff3300);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        
+        .paragraph {
+            color: #0066ff;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #f0f8ff; /* Light blue background */
+            color: #003366; /* Dark blue text */
+        }
+        .table-container th, .table-container td {
+            padding: 15px;
+            border: 1px solid #0066cc; /* Medium blue borders */
+            text-align: left;
+        }
+        .table-container th {
+            background-color: #0066cc; /* Medium blue background for headers */
+            color: #ffffff; /* White text for headers */
+        }
+        .upload-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0066ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comment-box {
+            width: 100%;
+            height: 100px;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: none;
+        }
+
+        .calculator {
+            width: 6cm;
+            height: 7cm;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .calculator input {
+            width: 100%;
+            height: 40px;
+            text-align: right;
+            font-size: 27px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding-right: 10px;
+        }
+
+        .calculator button {
+            width: 22%;
+            height: 40px;
+            font-size: 18px;
+            margin: 2%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #0066ff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .calculator .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .right-side {
+            width: 8cm;
+            height:16.1cm;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 50px auto;
+            text-align: center;
+        }
+    /* Ensure the clock is styled and positioned correctly */
+.clock-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(45deg, blue, red);
+    border-radius: 40px;
+    padding: 10px;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5em;
+    width: 10cm;
+    height:1cm;
+    
+}
+
+.clock {
+    text-align: center;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">Administrator Department</h1>
+        <p class="paragraph">Please enter the department spending details and submit them for review.</p>
+        
+        <form id="dataForm">
+            <table>
+                <tr>
+                    <th>Department</th>
+                    <th>Amount Spent</th>
+                </tr>
+                <tr>
+                    <td>CEO</td>
+                    <td><input type="text" id="ceo_amount" placeholder="Amt to CEO"></td>
+                </tr>
+                <tr>
+                    <td>Finance</td>
+                    <td><input type="text" id="finance_amount" placeholder="Amt to Finance"></td>
+                </tr>
+                <tr>
+                    <td>E&C</td>
+                    <td><input type="text" id="ec_amount" placeholder="Amt to E&C"></td>
+                </tr>
+                <tr>
+                    <td>Ministry</td>
+                    <td><input type="text" id="ministry_amount" placeholder="Amt to Ministry"></td>
+                </tr>
+                <tr>
+                    <td>Administrator</td>
+                    <td><input type="text" id="administrator_amount" placeholder="Amt to Administrator"></td>
+                </tr>
+                <tr>
+                    <td>Mission</td>
+                    <td><input type="text" id="mission_amount" placeholder="Amt to Mission"></td>
+                </tr>
+            </table>
+
+            <div>
+                <label for="release-date">Release Date</label>
+                <input type="date" id="release-date">
+            </div>
+
+            <div>
+                <label for="comment">Comment:</label>
+                <textarea id="comment" class="comment-box" placeholder="Type your comment here..."></textarea>
+            </div>
+
+            <div>
+                <label for="imageUpload">Upload Image:</label>
+                <input type="file" id="imageUpload" accept="image/*">
+            </div>
+
+            <button class="upload-button" type="submit">Upload</button>
+        </form>
+
+        <div class="table-container">
+            <h2>Stored Records</h2>
+            <table id="recordsTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>CEO</th>
+                        <th>Finance</th>
+                        <th>E&C</th>
+                        <th>Ministry</th>
+                        <th>Administrator</th>
+                        <th>Mission</th>
+                        <th>Comment</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Records will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Download and Delete buttons -->
+        <button id="download-button" class="upload-button">Download Records as HTML</button>
+        <button id="delete-table-button" class="upload-button" style="background-color: red;">Erase Table</button>
+    </div>
+
+    <div class="right-side">
+        <h2> simple arithms</h2>
+        <div class="calculator">
+            <input type="text" id="calc-display" readonly>
+            <div class="row">
+                <button onclick="calcInput('7')">7</button>
+                <button onclick="calcInput('8')">8</button>
+                <button onclick="calcInput('9')">9</button>
+                <button onclick="calcInput('/')">/</button>
+            </div>
+            <div class="row">
+                <button onclick="calcInput('4')">4</button>
+                <button onclick="calcInput('5')">5</button>
+                <button onclick="calcInput('6')">6</button>
+                <button onclick="calcInput('*')">*</button>
+            </div>
+            <div class="row">
+                <button onclick="calcInput('1')">1</button>
+                <button onclick="calcInput('2')">2</button>
+                <button onclick="calcInput('3')">3</button>
+                <button onclick="calcInput('-')">-</button>
+            </div>
+            <div class="row">
+                <button onclick="calcInput('0')">0</button>
+                <button onclick="calcInput('.')">.</button>
+                <button onclick="calculate()">=</button>
+                <button onclick="calcInput('+')">+</button>
+            </div>
+            <div class="row">
+                <button onclick="clearDisplay()" style="width: 96%;">C</button>
+            </div>
+        </div>
+    </div>
+<div class="clock-container">
+        <div id="clock" class="clock"></div>
+    </div>
+   
+	
+    <script>
+        // Function for calculator input
+// Function for calculator input
+function calcInput(value) {
+    document.getElementById('calc-display').value += value;
+}
+
+// Function to calculate the result in the calculator
+function calculate() {
+    let result = eval(document.getElementById('calc-display').value);
+    document.getElementById('calc-display').value = result;
+}
+
+// Function to clear the calculator display
+function clearDisplay() {
+    document.getElementById('calc-display').value = '';
+}
+
+// Function to update the clock
+function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    document.getElementById('clock').textContent = timeString;
+}
+
+setInterval(updateClock, 1000);
+updateClock(); // Initialize the clock immediately
+
+// Event listener for form submission to store data
+document.getElementById('dataForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the form from submitting traditionally
+
+    // Get the values from the form fields
+    const ceo_amount = document.getElementById('ceo_amount').value;
+    const finance_amount = document.getElementById('finance_amount').value;
+    const ec_amount = document.getElementById('ec_amount').value;
+    const ministry_amount = document.getElementById('ministry_amount').value;
+    const administrator_amount = document.getElementById('administrator_amount').value;
+    const mission_amount = document.getElementById('mission_amount').value;
+    const releaseDate = document.getElementById('release-date').value;
+    const comment = document.getElementById('comment').value;
+
+    const imageUpload = document.getElementById('imageUpload');
+    let imageSrc = "";
+
+    // Check if an image is uploaded
+    if (imageUpload.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            imageSrc = e.target.result;
+
+            // Create a record object once image is loaded
+            const record = {
+                date: releaseDate,
+                ceo: ceo_amount,
+                finance: finance_amount,
+                ec: ec_amount,
+                ministry: ministry_amount,
+                administrator: administrator_amount,
+                mission: mission_amount,
+                comment: comment,
+                imageSrc: imageSrc
+            };
+
+            // Store the record in local storage
+            let storedRecords = JSON.parse(localStorage.getItem('storedRecords')) || [];
+            storedRecords.push(record);
+            localStorage.setItem('storedRecords', JSON.stringify(storedRecords));
+
+            // Send the data to another page via sessionStorage
+            sessionStorage.setItem('storedRecords', JSON.stringify(storedRecords));
+            window.location.href = 'display.html'; // Redirect to the display page
+
+            // Update the table with the new record
+            addRecordToTable(record);
+
+            // Clear the form fields after submission
+            document.getElementById('dataForm').reset();
+        };
+        reader.readAsDataURL(imageUpload.files[0]);
+    } else {
+        // Create a record object without an image
+        const record = {
+            date: releaseDate,
+            ceo: ceo_amount,
+            finance: finance_amount,
+            ec: ec_amount,
+            ministry: ministry_amount,
+            administrator: administrator_amount,
+            mission: mission_amount,
+            comment: comment,
+            imageSrc: "N/A"
+        };
+
+        // Store the record in local storage
+        let storedRecords = JSON.parse(localStorage.getItem('storedRecords')) || [];
+        storedRecords.push(record);
+        localStorage.setItem('storedRecords', JSON.stringify(storedRecords));
+
+        // Send the data to another page via sessionStorage
+        sessionStorage.setItem('storedRecords', JSON.stringify(storedRecords));
+        window.location.href = 'display.html'; // Redirect to the display page
+
+        // Update the table with the new record
+        addRecordToTable(record);
+
+        // Clear the form fields after submission
+        document.getElementById('dataForm').reset();
+    }
+});
+
+// Function to add a record to the table
+function addRecordToTable(record) {
+    const tableBody = document.querySelector('#recordsTable tbody');
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+        <td>${record.date}</td>
+        <td>${record.ceo}</td>
+        <td>${record.finance}</td>
+        <td>${record.ec}</td>
+        <td>${record.ministry}</td>
+        <td>${record.administrator}</td>
+        <td>${record.mission}</td>
+        <td>${record.comment}</td>
+        <td>${record.imageSrc === "N/A" ? "N/A" : `<img src="${record.imageSrc}" alt="Uploaded Image" width="50">`}</td>
+    `;
+
+    tableBody.appendChild(row);
+}
+
+// Function to load records from localStorage and display them in the table
+function loadRecords() {
+    const storedRecords = JSON.parse(localStorage.getItem('storedRecords')) || [];
+    storedRecords.forEach(record => {
+        addRecordToTable(record);
+    });
+}
+
+// Call loadRecords on page load
+window.onload = loadRecords;
+
+// Download the records as an HTML file
+document.getElementById('download-button').addEventListener('click', function() {
+    const table = document.getElementById('recordsTable').outerHTML;
+    const htmlContent = `
+        <html>
+        <head>
+            <title>Stored Records</title>
+            <style>
+                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                th, td { padding: 15px; border: 1px solid #ddd; text-align: left; }
+            </style>
+        </head>
+        <body>
+            <h2>Stored Records</h2>
+            ${table}
+        </body>
+        </html>
+    `;
+
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'records.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+});
+
+// Delete the table from the interface
+// Clear the table from the interface without removing from localStorage
+document.getElementById('delete-table-button').addEventListener('click', function() {
+    const tableBody = document.querySelector('#recordsTable tbody');
+    tableBody.innerHTML = ''; // Clear the table body (visual content)
+});
+
+    
+    // Assuming you want to collect and store the selected date along with the comment
+
+document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const comment = document.getElementById('comment').value;
+    const date = document.getElementById('comment-date').value;
+    
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stored Data Display</title>
+    <style>
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+        }
+        th, td { 
+            padding: 15px; 
+            border: 1px solid #ddd; 
+            text-align: left; 
+            cursor: pointer;
+        }
+        img { 
+            width: 50px; 
+            height: auto; 
+        }
+        .selected {
+            background-color: #f2f2f2;
+        }
+        .delete-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Stored Records</h2>
+    <table id="recordsTable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>CEO</th>
+                <th>Finance</th>
+                <th>E&C</th>
+                <th>Ministry</th>
+                <th>Administrator</th>
+                <th>Mission</th>
+                <th>Comment</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Records will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <button class="delete-button" id="deleteSelectedButton">Delete Selected</button>
+
+    <script>
+        let selectedRow = null;
+
+        // Function to add a record to the table
+        function addRecordToTable(record, index) {
+            const tableBody = document.querySelector('#recordsTable tbody');
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td>${record.date}</td>
+                <td>${record.ceo}</td>
+                <td>${record.finance}</td>
+                <td>${record.ec}</td>
+                <td>${record.ministry}</td>
+                <td>${record.administrator}</td>
+                <td>${record.mission}</td>
+                <td>${record.comment}</td>
+                <td>${record.imageSrc === "N/A" ? "N/A" : `<img src="${record.imageSrc}" alt="Uploaded Image">`}</td>
+            `;
+
+            // Attach index to row for later identification
+            row.dataset.index = index;
+
+            // Add click event to select the row
+            row.addEventListener('click', function() {
+                if (selectedRow) {
+                    selectedRow.classList.remove('selected');
+                }
+                selectedRow = this;
+                selectedRow.classList.add('selected');
+            });
+
+            tableBody.appendChild(row);
+        }
+
+        // Load the records from sessionStorage or localStorage and display them
+        function loadRecords() {
+            const storedRecords = JSON.parse(sessionStorage.getItem('storedRecords')) || [];
+            const localRecords = JSON.parse(localStorage.getItem('storedRecords')) || [];
+            
+            // Combine sessionStorage and localStorage records
+            const allRecords = [...storedRecords, ...localRecords];
+            
+            allRecords.forEach((record, index) => {
+                addRecordToTable(record, index);
+            });
+
+            // Clear sessionStorage after loading
+            sessionStorage.removeItem('storedRecords');
+        }
+
+        // Delete selected record
+        document.getElementById('deleteSelectedButton').addEventListener('click', function() {
+            if (selectedRow) {
+                const index = selectedRow.dataset.index;
+
+                // Remove the selected row from the table
+                selectedRow.remove();
+
+                // Update sessionStorage and localStorage
+                let storedRecords = JSON.parse(sessionStorage.getItem('storedRecords')) || [];
+                let localRecords = JSON.parse(localStorage.getItem('storedRecords')) || [];
+
+                // Find and remove the record from localRecords
+                localRecords.splice(index, 1);
+
+                // Update localStorage
+                localStorage.setItem('storedRecords', JSON.stringify(localRecords));
+
+                // Also update sessionStorage if any records remain
+                if (localRecords.length > 0) {
+                    sessionStorage.setItem('storedRecords', JSON.stringify(localRecords));
+                } else {
+                    sessionStorage.removeItem('storedRecords');
+                }
+
+                selectedRow = null; // Reset the selected row
+            } else {
+                alert("Please select a row to delete.");
+            }
+        });
+
+        // Call loadRecords on page load
+        window.onload = loadRecords;
+    </script>
+</body>
+</html>

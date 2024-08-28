@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministry Department</title>
+    <style>
+    body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: #333;
+    color: white;
+}
+
+.background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    object-fit: cover;
+    filter: brightness(50%);
+}
+
+.header {
+    padding: 20px;
+    background: linear-gradient(to right, blue, yellow, red);
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.transparent-container {
+    margin: 50px auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.form-group input[type="file"] {
+    padding: 10px;
+}
+
+.upload-label {
+    cursor: pointer;
+}
+
+.upload-button {
+    background: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-button:hover {
+    background: #3e8e41;
+}
+
+.clock {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+    </style>
+</head>
+<body>
+    <video autoplay muted loop class="background-video">
+        <source src="your-background-video.mp4" type="video/mp4">
+    </video>
+
+    <div class="header">Ministry Department</div>
+
+    <div class="transparent-container">
+        <form id="departmentForm">
+            <div class="form-group">
+                <label for="dateInput">Date:</label>
+                <input type="date" id="dateInput" required>
+            </div>
+
+            <div class="form-group">
+                <label for="commentInput">Comment:</label>
+                <textarea id="commentInput" placeholder="Enter your comment here" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="transactionsInput">Copied Transactions:</label>
+                <textarea id="transactionsInput" placeholder="Paste transactions here" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="imageInput" class="upload-label">
+                    <i class="camera-icon"></i>
+                    <span>Any other graphical information</span>
+                </label>
+                <input id="imageInput" type="file" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="passwordInput">Password:</label>
+                <input type="password" id="passwordInput" required>
+            </div>
+
+            <button id="submitBtn" class="upload-button" type="submit">Upload</button>
+        </form>
+    </div>
+
+    <div class="clock" id="clock"></div>
+
+    <script>
+    // Get the video element
+const video = document.getElementById('star.mp4');
+
+// Play the video on load
+video.play();
+
+// Add event listener to the upload button
+document.getElementById('upload-button').addEventListener('click', () => {
+  // Get the file input element
+  const fileInput = document.getElementById('file-input');
+
+  // Get the selected file
+  const file = fileInput.files[0];
+
+  // Check if a file is selected
+  if (file) {
+    // Create a new FormData object
+    const formData = new FormData();
+
+    // Add the file to the FormData object
+    formData.append('file', file);
+
+    // Send the file to the server using XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/upload', true);
+    xhr.send(formData);
+
+    // Add event listener to the XMLHttpRequest object
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        console.log('File uploaded successfully!');
+      } else {
+        console.error('Error uploading file:', xhr.statusText);
+      }
+    };
+  } else {
+    console.error('No file selected!');
+  }
+});
+
+// Add event listener to the clock element
+document.getElementById('clock').addEventListener('click', () => {
+  console.log('Clock clicked!');
+});
+    </script>
+</body>
+</html>

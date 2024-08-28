@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stored Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #0066ff;
+            color: white;
+        }
+        td img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stored Records</h1>
+        <table id="recordsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>CEO</th>
+                    <th>Finance</th>
+                    <th>E&C</th>
+                    <th>Ministry</th>
+                    <th>Administrator</th>
+                    <th>Mission</th>
+                    <th>Comment</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Records will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve stored records from localStorage
+            const storedRecords = JSON.parse(localStorage.getItem('storedRecords')) || [];
+
+            // Get the table body element
+            const tableBody = document.getElementById('recordsTable').getElementsByTagName('tbody')[0];
+
+            // Insert each record into the table
+            storedRecords.forEach(record => {
+                const newRow = tableBody.insertRow();
+
+                newRow.insertCell(0).textContent = record.date;
+                newRow.insertCell(1).textContent = record.ceo;
+                newRow.insertCell(2).textContent = record.finance;
+                newRow.insertCell(3).textContent = record.ec;
+                newRow.insertCell(4).textContent = record.ministry;
+                newRow.insertCell(5).textContent = record.administrator;
+                newRow.insertCell(6).textContent = record.mission;
+                newRow.insertCell(7).textContent = record.comment;
+
+                const imageCell = newRow.insertCell(8);
+                if (record.imageSrc === "N/A") {
+                    imageCell.textContent = "No Image";
+                } else {
+                    const img = document.createElement('img');
+                    img.src = record.imageSrc;
+                    imageCell.appendChild(img);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

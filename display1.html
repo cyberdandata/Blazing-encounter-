@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minister-page Page</title>
+    <style>
+    body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: #333;
+    color: white;
+}
+
+.header {
+    padding: 20px;
+    background: linear-gradient(to right, blue, yellow, red);
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#receipt-table th, #receipt-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+#receipt-table th {
+    background: #f0f0f0;
+}
+
+#password-container {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#delete-password {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+#delete-confirm {
+    background: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#delete-confirm:hover {
+    background: #3e8e41;
+}
+    </style>
+</head>
+<body>
+    <div class="header">Minister-page Page</div>
+    <table id="receipt-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Comment</th>
+                <th>Transactions</th>
+                <th>Image</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="receipt-body">
+        </tbody>
+    </table>
+
+    <div id="password-container" style="display: none;">
+        <input type="password" id="delete-password" placeholder="Enter password to delete">
+        <button id="delete-confirm">Confirm</button>
+    </div>
+
+    <script>
+    // Get the receipt table element
+const receiptTable = document.getElementById('receipt-table');
+
+// Add event listener to the delete password button
+document.getElementById('delete-password-button').addEventListener('click', () => {
+  // Get the password input element
+  const passwordInput = document.getElementById('delete-password');
+
+  // Get the password value
+  const password = passwordInput.value;
+
+  // Check if the password is correct
+  if (password === 'correct_password') {
+    // Delete the password
+    console.log('Password deleted successfully!');
+  } else {
+    console.error('Incorrect password!');
+  }
+});
+
+// Add event listener to the delete confirm button
+document.getElementById('delete-confirm-button').addEventListener('click', () => {
+  // Get the delete password button element
+  const deletePasswordButton = document.getElementById('delete-password-button');
+
+  // Disable the delete password button
+  deletePasswordButton.disabled = true;
+
+  // Add a timeout to re-enable the button after 5 seconds
+  setTimeout(() => {
+    deletePasswordButton.disabled = false;
+  }, 5000);
+});
+    </script>
+</body>
+</html>

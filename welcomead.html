@@ -1,0 +1,165 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to the Administrative System</title>
+  <style>
+    /* styles here */
+    .container {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.7); /* transparent background */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .header {
+      font-size: 36px;
+      font-weight: bold;
+      background-image: linear-gradient(to right, blue, red);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .paragraph {
+      color: blue;
+    }
+    
+    .button {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px; /* added margin to separate buttons */
+    }
+    .button {
+  /* existing styles */
+  padding: 20px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.button#minister-button {
+  /* add some extra vertical size to the Minister button */
+  padding-right: 40px; /* increase the right padding */
+  background-image: linear-gradient(to bottom, #4CAF50, #3e8e41); /* add a subtle gradient effect */
+}
+    .button:hover {
+      background-color: #3e8e41;
+    }
+    
+    /* added styles to make video same size as container */
+    .container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    
+    /* added styles for login container */
+    .login-container {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .login-container.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <video autoplay muted loop>
+      <source src="star.mp4" type="video/mp4">
+    </video>
+    <h1 class="header">Welcome to the Administrative System</h1>
+    <p class="paragraph">Press only your department for progression</p>
+    <button class="button" onclick="showLogin('administrator')">Administrator</button>
+<button class="button" id="minister-button" onclick="showLogin('minister')">Minister</button>
+<button class="button" onclick="showLogin('finance')">Finance</button>
+<button class="button" onclick="showLogin('mission')">Mission</button>
+<button class="button" onclick="showLogin('eministerscamp')">E & Minister's Camp</button>
+<button class="button" onclick="showLogin('CEO')">CEO</button>
+    <!-- login containers -->
+    <div class="login-container" id="administrator-login">
+      <h2>Administrator Login</h2>
+      <input type="password" id="administrator-password" placeholder="Enter password">
+      <button onclick="checkPassword('administrator')">Login</button>
+    </div>
+    
+    <div class="login-container" id="minister-login">
+      <h2>Minister Login</h2>
+      <input type="password" id="minister-password" placeholder="Enter password">
+      <button onclick="checkPassword('minister')">Login</button>
+    </div>
+    
+    <div class="login-container" id="finance-login">
+      <h2>Finance Login</h2>
+      <input type="password" id="finance-password" placeholder="Enter password">
+      <button onclick="checkPassword('finance')">Login</button>
+    </div>
+    
+    <div class="login-container" id="mission-login">
+      <h2>Mission Login</h2>
+      <input type="password" id="mission-password" placeholder="Enter password">
+      <button onclick="checkPassword('mission')">Login</button>
+    </div>
+    
+    <div class="login-container" id="eministerscamp-login">
+      <h2>E & Minister's Camp Login</h2>
+      <input type="password" id="eministerscamp-password" placeholder="Enter password">
+      <button onclick="checkPassword('eministerscamp')">Login</button>
+    </div>
+    
+    <div class="login-container" id="CEO-login">
+      <h2>CEO Login</h2>
+      <input type="password" id="CEO-password" placeholder="Enter password">
+      <button onclick="checkPassword('CEO')">
+        <script>
+  function showLogin(department) {
+    var loginContainers = document.querySelectorAll('.login-container');
+    loginContainers.forEach(function(container) {
+      container.classList.remove('show');
+    });
+    var loginContainer = document.getElementById(department + '-login');
+    loginContainer.classList.add('show');
+  }
+
+  function checkPassword(department) {
+    var password = document.getElementById(department + '-password').value;
+    if (password === '0758' && department === 'administrator') {
+      window.location.href = 'administrator page1.html';
+    } else if (password === '0706' && department === 'minister') {
+      window.location.href = 'minister-page.html';
+    } else if (password === '0780' && department === 'finance') {
+      window.location.href = 'finance-page.html';
+    } else if (password === '0743' && department === 'mission') {
+      window.location.href = 'mission-page.html';
+    } else if (password === '0756' && department === 'eministerscamp') {
+      window.location.href = 'camp-page.html';
+    } else if (password === '0752' && department === 'CEO') {
+      window.location.href = 'CEO.html';
+    } else {
+      alert('Wrong password!');
+    }
+  }
+  
+</script>
